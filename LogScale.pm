@@ -1,7 +1,7 @@
 # -*- perl -*-
 
 #
-# $Id: LogScale.pm,v 1.3 1999/12/19 22:44:49 eserte Exp $
+# $Id: LogScale.pm,v 1.4 1999/12/20 00:23:10 eserte Exp $
 # Author: Slaven Rezic
 #
 # Copyright (C) 1999 Slaven Rezic. All rights reserved.
@@ -19,27 +19,27 @@ use base qw(Tk::Frame);
 use Tk;
 Construct Tk::Widget 'LogScale';
 
-$VERSION = '0.03';
+$VERSION = '0.05';
 
 sub Populate {
     my($w, $args) = @_;
 
     $w->Component('Label', 'showvalue');
     $w->Component('Label', 'dummy');
-    my $scale   = $w->Component('Scale', 'scale',
+    my $scale = $w->Component('Scale', 'scale',
 			      -showvalue => 0,
 			      -command => [ $w, 'scale_command']
 			     );
 
     $w->ConfigSpecs
-      (-variable  => ['METHOD',   'variable',  'Variable',   undef],
-       -from      => ['METHOD',   'from',      'From',       1],
-       -to        => ['METHOD',   'to',        'To',         100],
-       -orient    => ['METHOD',   'orient',    'Orient',    'horizontal'],
+      (-variable  => ['PASSIVE',   'variable',  'Variable',   undef],
+       -from      => ['PASSIVE',  'from',      'From',       1],
+       -to        => ['PASSIVE',  'to',        'To',         100],
+       -orient    => ['PASSIVE',  'orient',    'Orient',    'horizontal'],
        -func      => ['CALLBACK', 'func',      'Func',      \&logfunc],
        -invfunc   => ['CALLBACK', 'invFunc',   'InvFunc',   \&expfunc],
        -showvalue => ['PASSIVE',  'showValue', 'ShowValue',  1],
-       -command   => ['PASSIVE',  'command',   'Commmand',   undef],
+       -command   => ['CALLBACK', 'command',   'Command',   undef],
        -valuefmt  => ['CALLBACK', 'valueFmt',  'ValueFmt',   sub { int($_[0]) }],
        DEFAULT    => [$scale]);
 
@@ -62,22 +62,22 @@ sub ConfigChanged {
 
     if (exists $args->{-orient} ||
 	!$w->Subwidget('scale')->manager) {
-	if ($w->{Orient} =~ /^h/) {
+	if ($args->{-orient} =~ /^h/) {
 	    $w->Subwidget('scale')->grid(-column => 0, -row => 1);
 	} else {
 	    $w->Subwidget('scale')->grid(-column => 1, -row => 0);
 	}
 	$w->Subwidget('scale')->configure
-	  (-orient => $w->{Orient});
+	  (-orient => $args->{-orient});
     }
 
     if (exists $args->{-from}) {
 	$w->Subwidget('scale')->configure
-	  (-from  => $w->Callback(-func, $w->{From}));
+	  (-from  => $w->Callback(-func, $args->{-from}));
     }
     if (exists $args->{-to}) {
 	$w->Subwidget('scale')->configure
-	  (-to    => $w->Callback(-func, $w->{To}));
+	  (-to    => $w->Callback(-func, $args->{-to}));
     }
     if (exists $args->{-to} ||
 	exists $args->{-valuefmt}) {
@@ -85,43 +85,16 @@ sub ConfigChanged {
 	  (-width => length($w->Callback(-valuefmt, $args->{-to})));
     }
 
-}
-
-sub variable {
-    my $w = shift;
-    if (@_) {
-	require Tie::Watch;
-	$w->{Variable} = $_[0];
-	$w->{Watch} = new Tie::Watch
-	  -variable => $w->{Variable},
+    if (exists $args->{-variable}) {
+ 	require Tie::Watch;
+	# Pre-set current variable value, so Tie::Watch does not get
+	# confused.
+	$w->set($ { $args->{-variable} });
+ 	$w->{Watch} = new Tie::Watch
+ 	  -variable => $args->{-variable},
 	  -fetch    => sub { $w->get        },
-	  -store    => sub { $w->set($_[1]) };
+ 	  -store    => sub { $w->set($_[1]) };
     }
-    $w->{Variable};
-}
-
-sub from {
-    my $w = shift;
-    if (@_) {
-	$w->{From} = shift;
-    }
-    $w->{From};
-}
-
-sub to {
-    my $w = shift;
-    if (@_) {
-	$w->{To} = shift;
-    }
-    $w->{To};
-}
-
-sub orient {
-    my $w = shift;
-    if (@_) {
-	$w->{Orient} = shift;
-    }
-    $w->{Orient};
 }
 
 sub scale_command {
@@ -129,11 +102,11 @@ sub scale_command {
     $w->{RealVal} = $w->Callback(-invfunc, $scaleval);
     if (defined $w->{Watch}) {
 	# XXX eigentlich möchte ich lieber das hier machen:
-	#$w->{Watch}->Store($w->{RealVal});
-	$ { $w->{Variable} } = $w->{RealVal};
+#	$w->{Watch}->Store($w->{RealVal});
+	$ { $w->cget(-variable) } = $w->{RealVal};
     }
     $w->update_showvalue;
-    $w->{Command}->($w->{RealVal}) if $w->{Command};
+    $w->Callback(-command, $w->{RealVal});
 }
 
 sub set {
@@ -151,7 +124,7 @@ sub update_showvalue {
 	my $scale = $w->Subwidget('scale');
 	my $dummy = $w->Subwidget('dummy');
 	$l->configure(-text => $w->Callback(-valuefmt, $w->{RealVal}));
-	if ($w->{Orient} =~ /^h/) {
+	if ($w->cget(-orient) =~ /^h/) {
 	    my($x) = $scale->x + ($scale->coords)[0];
 	    my($y) = $dummy->y + $l->reqheight/2;
 	    $l->place('-x' => $x, '-y' => $y, -anchor => "c");
