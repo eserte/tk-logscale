@@ -8,11 +8,11 @@
 
 BEGIN { $| = 1; print "1..2\n"; }
 END {print "not ok 1\n" unless $loaded;}
+use Tk;
 use Tk::LogScale;
 $loaded = 1;
 print "ok 1\n";
 
-use Tk;
 my $top = new MainWindow;
 
 foreach my $orient ('horizontal', 'vertical') {
