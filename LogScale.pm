@@ -1,7 +1,7 @@
 # -*- perl -*-
 
 #
-# $Id: LogScale.pm,v 1.4 1999/12/20 00:23:10 eserte Exp $
+# $Id: LogScale.pm,v 1.5 2002/01/10 09:17:33 eserte Exp $
 # Author: Slaven Rezic
 #
 # Copyright (C) 1999 Slaven Rezic. All rights reserved.
@@ -19,7 +19,7 @@ use base qw(Tk::Frame);
 use Tk;
 Construct Tk::Widget 'LogScale';
 
-$VERSION = '0.05';
+$VERSION = '0.06';
 
 sub Populate {
     my($w, $args) = @_;
