@@ -33,7 +33,7 @@ foreach my $orient ('horizontal', 'vertical') {
 		     -func    => sub { eval { log($_[0])/log(10) } },
 		     -invfunc => sub { 10**$_[0] },
 		     -command => sub { warn "Changed to $_[0]" },
-		    )->pack;
+		    )->pack(-fill => ($orient eq 'horizontal' ? "x" : "y"));
 	$li++;
     }
 }
