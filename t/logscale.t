@@ -15,6 +15,8 @@ print "ok 1\n";
 
 my $top = new MainWindow;
 
+$bla = 50000;
+
 foreach my $orient ('horizontal', 'vertical') {
     foreach my $showvalue (0, 1) {
 	$top->LogScale(-variable => \$bla,
@@ -27,14 +29,23 @@ foreach my $orient ('horizontal', 'vertical') {
 		       -valuefmt => sub { sprintf("1:%d", $_[0]) },
 		       -func    => sub { eval { log($_[0])/log(10) } },
 		       -invfunc => sub { 10**$_[0] },
+		       -command => sub { warn "Changed to $_[0]" },
 		      )->pack;
     }
 }
+
+$top->update;
 
 $top->Label(-width => 30,
 	    -textvariable => \$bla,
 	   )->pack;
 
+$top->Button(-text => "Set to 50000",
+	     -command => sub { $bla = 50000 })->pack;
 print "ok 2\n";
 
+$top->Button(-text => "OK",
+	     -command => sub {
+		 $top->destroy;
+	     })->pack;
 MainLoop;
