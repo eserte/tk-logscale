@@ -1,7 +1,7 @@
 # -*- perl -*-
 
 #
-# $Id: LogScale.pm,v 1.5 2002/01/10 09:17:33 eserte Exp $
+# $Id: LogScale.pm,v 1.6 2002/03/21 20:44:08 eserte Exp $
 # Author: Slaven Rezic
 #
 # Copyright (C) 1999 Slaven Rezic. All rights reserved.
@@ -19,7 +19,7 @@ use base qw(Tk::Frame);
 use Tk;
 Construct Tk::Widget 'LogScale';
 
-$VERSION = '0.06';
+$VERSION = '0.07';
 
 sub Populate {
     my($w, $args) = @_;
@@ -173,7 +173,8 @@ B<Tk::LogScale> roughly uses the same options as in
 L<Tk::Scale|Tk::Scale>. The B<-digits> option is not implemented. For
 the B<-bigincrement> and B<-resolution>, translated values have to be
 used. The B<-variable> option can only be used if the
-L<Tie::Watch|Tie::Watch> module is installed.
+L<Tie::Watch|Tie::Watch> module is installed (Note: C<Tie::Watch> is
+in the Perl/Tk distribution since 800.022).
 
 The following options are new to B<Tk::LogScale>:
 
@@ -227,7 +228,7 @@ B<-tickinterval> options is unclear.
 
 =head1 AUTHOR
 
-Slaven Rezic <eserte@cs.tu-berlin.de>
+Slaven Rezic <slaven.rezic@berlin.de>
 
 =head1 SEE ALSO
 
