@@ -48,4 +48,8 @@ $top->Button(-text => "OK",
 	     -command => sub {
 		 $top->destroy;
 	     })->pack;
+
+if ($ENV{BATCH}) {
+    $top->after(500, sub { $top->destroy });
+}
 MainLoop;
