@@ -1,7 +1,7 @@
 # -*- perl -*-
 
 #
-# $Id: LogScale.pm,v 1.6 2002/03/21 20:44:08 eserte Exp $
+# $Id: LogScale.pm,v 1.7 2002/07/27 20:04:35 eserte Exp $
 # Author: Slaven Rezic
 #
 # Copyright (C) 1999 Slaven Rezic. All rights reserved.
@@ -19,7 +19,7 @@ use base qw(Tk::Frame);
 use Tk;
 Construct Tk::Widget 'LogScale';
 
-$VERSION = '0.07';
+$VERSION = '0.08';
 
 sub Populate {
     my($w, $args) = @_;
@@ -63,9 +63,11 @@ sub ConfigChanged {
     if (exists $args->{-orient} ||
 	!$w->Subwidget('scale')->manager) {
 	if ($args->{-orient} =~ /^h/) {
-	    $w->Subwidget('scale')->grid(-column => 0, -row => 1);
+	    $w->gridColumnconfigure(0,-weight=>1);
+	    $w->Subwidget('scale')->grid(-column => 0, -row => 1, -sticky => "news");
 	} else {
-	    $w->Subwidget('scale')->grid(-column => 1, -row => 0);
+	    $w->gridRowconfigure(0,-weight=>1);
+	    $w->Subwidget('scale')->grid(-column => 1, -row => 0, -sticky => "news");
 	}
 	$w->Subwidget('scale')->configure
 	  (-orient => $args->{-orient});
