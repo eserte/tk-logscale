@@ -40,6 +40,22 @@ $top->Label(-width => 30,
 	    -textvariable => \$bla,
 	   )->pack;
 
+if (1) {
+    # hack to allow only odd numbers from 3 to 13
+    my $bla2 = 1;
+    my $l;
+    $l = $top->LogScale(-variable => \$bla2,
+			-showvalue => $showvalue,
+			-resolution => 4,
+			-orient => $orient,
+			-from => 3,
+			-to => 13,
+			-func    => sub { ($_[0]-3)*2 },
+			-invfunc => sub { ($_[0]/2)+3 },
+			-command => sub { warn "Odd number: $_[0]" },
+		       )->pack;
+}
+
 $top->Button(-text => "Set to 50000",
 	     -command => sub { $bla = 50000 })->pack;
 print "ok 2\n";
