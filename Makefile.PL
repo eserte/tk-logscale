@@ -10,3 +10,18 @@ WriteMakefile(
     'ABSTRACT_FROM' => 'LogScale.pm',
     'AUTHOR' => 'Slaven Rezic (eserte@cs.tu-berlin.de)',
 );
+
+sub MY::postamble {
+    my $postamble = '';
+
+    if (defined $ENV{USER} && $ENV{USER} eq 'eserte' && $^O =~ /bsd/i && -f "../../perl.release.mk") {
+	$postamble .= <<'EOF';
+
+#.include "../../perl.release.mk"
+.include "../../perl.cvs.mk"
+
+EOF
+    }
+
+    $postamble;
+}
