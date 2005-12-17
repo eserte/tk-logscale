@@ -47,7 +47,7 @@ $top->update;
 	      -textvariable => \$bla[3],
 	     )->pack;
 
-    $f->Button(-text => "Set to 50000",
+    $f->Button(-text => "Set to (approx.) 50000",
 	       -command => sub { $bla[3] = 50000 })->pack;
 }
 
