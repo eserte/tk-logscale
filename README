@@ -17,6 +17,13 @@ To install, type
 	$ make
 	$ make install
 
+Windows users should replace make by nmake (ActivePerl) or dmake
+(Vanilla/Strawberry Perl).
+
+For a demonstration, use
+
+	$ make demo
+
 As an additional requirement (it's only really necessary if the
 -variable option is used), the Tie::Watch module should be installed
 (which is by default since Tk 800.022).
