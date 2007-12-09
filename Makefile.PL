@@ -14,6 +14,12 @@ WriteMakefile(
 sub MY::postamble {
     my $postamble = '';
 
+    $postamble .= <<'EOF';
+demo :: pure_all
+	$(FULLPERL) -w -Mblib t/logscale.t -demo
+
+EOF
+
     if (defined $ENV{USER} && $ENV{USER} eq 'eserte' && $^O =~ /bsd/i && -f "../../perl.release.mk") {
 	$postamble .= <<'EOF';
 
