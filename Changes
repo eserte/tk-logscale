@@ -1,5 +1,9 @@
 Revision history for Perl extension Tk::LogScale.
 
+0.08	2007-12-09
+	- first CPAN release
+	- some distribution cleanups
+
 0.06  Thu Jan 10 10:18:03 CET 2002
 	- another (disabled) test
 
