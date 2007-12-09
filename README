@@ -21,4 +21,4 @@ As an additional requirement (it's only really necessary if the
 -variable option is used), the Tie::Watch module should be installed
 (which is by default since Tk 800.022).
 
-Send bug reports, comments and suggestions to slaven.rezic@berlin.de
+Send bug reports, comments and suggestions to slaven@rezic.de
