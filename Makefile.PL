@@ -4,8 +4,8 @@ use ExtUtils::MakeMaker;
 WriteMakefile(
     'NAME'	=> 'Tk::LogScale',
     'VERSION_FROM' => 'LogScale.pm', # finds $VERSION
-    'dist'      => {'COMPRESS'=>'gzip -9f', 'SUFFIX' => '.gz',
-                    'POSTOP'=>'-$(CHMOD) 644 $(DISTVNAME).tar$(SUFFIX)'},
+#    'dist'      => {'COMPRESS'=>'gzip -9f', 'SUFFIX' => '.gz',
+#                    'POSTOP'=>'-$(CHMOD) 644 $(DISTVNAME).tar$(SUFFIX)'},
     'PREREQ_PM'    => {'Tk' => 0,
 		       # 'Tie::Watch' => 1.00, # usually already included in modern Tk's
 		      },
