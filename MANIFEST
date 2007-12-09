@@ -2,5 +2,5 @@ Changes
 LogScale.pm
 MANIFEST
 Makefile.PL
-test.pl
+t/logscale.t
 README
