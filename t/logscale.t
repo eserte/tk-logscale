@@ -13,6 +13,15 @@ BEGIN {
 }
 
 use Tk;
+
+my $top;
+BEGIN {
+    if (!eval { $top = new MainWindow }) {
+	print "1..0 # skip cannot open DISPLAY\n";
+	CORE::exit;
+    }
+}
+
 use Tk::LabFrame;
 
 plan tests => 5;
@@ -21,8 +30,6 @@ if (!defined $ENV{BATCH}) { $ENV{BATCH} = 1 }
 if (@ARGV && $ARGV[0] eq '-demo') { $ENV{BATCH} = 0 }
 
 use_ok("Tk::LogScale");
-
-my $top = new MainWindow;
 
 my @bla;
 $bla[$_] = 50000 for (0..3);
