@@ -34,6 +34,8 @@ use_ok("Tk::LogScale");
 my @bla;
 $bla[$_] = 50000 for (0..3);
 
+$top->geometry('+1+1'); # for twm
+
 my $li = 0;
 foreach my $orient ('horizontal', 'vertical') {
     foreach my $showvalue (0, 1) {
