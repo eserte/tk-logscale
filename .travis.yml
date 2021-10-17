@@ -26,6 +26,9 @@ install:
  - '[ "$USE_SYSTEM_PERL"  = "1" ] && sudo apt-get install -qq perl-tk || true'
  - '[ "$USE_SYSTEM_PERL" != "1" ] && cpanm --quiet --notest --installdeps . || true'
 
+script:
+ - perl Makefile.PL && make test HARNESS_TIMER=1 HARNESS_OPTIONS=j4:c
+
 branches:
  except:
   - /appveyor/
